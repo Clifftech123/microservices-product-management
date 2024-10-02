@@ -1,0 +1,47 @@
+version: '3.8' # Docker Compose file format version
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672" # AMQP protocol port
+      - "15672:15672" # RabbitMQ management UI port
+
+  product-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "Product!Passw0rd" # SA password
+      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+    ports:
+      - "1433:1433" # SQL Server port
+
+  auth-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "Auth!Passw0rd" # SA password
+      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+    ports:
+      - "1434:1433" # SQL Server port (mapped to 1433 inside container)
+
+  product-service:
+    build: ./ProductService.API
+    depends_on:
+      - rabbitmq
+      - product-db
+    environment:
+      - ConnectionStrings__ProductDb=Server=product-db,1433;Database=productdb;User Id=sa;Password=Product!Passw0rd
+
+  consumer-service:
+    build: ./ConsumerService.API
+    depends_on:
+      - rabbitmq
+    environment:
+      - ProductServiceUrl=http://product-service:80
+      - AuthServiceUrl=http://auth-service:80
+
+  auth-service:
+    build: ./AuthService.API
+    depends_on:
+      - auth-db
+    environment:
+      - ConnectionStrings__AuthDb=Server=auth-db,1433;Database=authdb;User Id=sa;Password=Auth!Passw0rd
