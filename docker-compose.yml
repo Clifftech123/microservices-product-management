@@ -1,4 +1,4 @@
-version: '3.8' # Docker Compose file format version
+version: '3.8'
 
 services:
   rabbitmq:
@@ -8,40 +8,70 @@ services:
       - "15672:15672" # RabbitMQ management UI port
 
   product-db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: postgres:latest
     environment:
-      SA_PASSWORD: "Product!Passw0rd" # SA password
-      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
     ports:
-      - "1433:1433" # SQL Server port
+      - "5432:5432" # PostgreSQL port
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   auth-db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: postgres:latest
     environment:
-      SA_PASSWORD: "Auth!Passw0rd" # SA password
-      ACCEPT_EULA: "Y" # Accept SQL Server EULA
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
     ports:
-      - "1434:1433" # SQL Server port (mapped to 1433 inside container)
+      - "5433:5432" # PostgreSQL port (mapped to 5432 inside container)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   product-service:
-    build: ./ProductService.API
+    build:
+      context: .
+      dockerfile: ProductService.API/Dockerfile
     depends_on:
-      - rabbitmq
-      - product-db
+      product-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
     environment:
-      - ConnectionStrings__ProductDb=Server=product-db,1433;Database=productdb;User Id=sa;Password=Product!Passw0rd
+      ConnectionStrings__DefaultConnection: "Host=product-db;Database=postgres;Username=postgres;Password=postgres"
 
   consumer-service:
-    build: ./ConsumerService.API
+    build:
+      context: .
+      dockerfile: ConsumerService.API/Dockerfile
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_started
     environment:
       - ProductServiceUrl=http://product-service:80
       - AuthServiceUrl=http://auth-service:80
 
   auth-service:
-    build: ./AuthService.API
+    image: ${DOCKER_REGISTRY-}authserviceapi
+    build:
+      context: .
+      dockerfile: AuthService.API/Dockerfile
     depends_on:
-      - auth-db
+      auth-db:
+        condition: service_healthy
     environment:
-      - ConnectionStrings__AuthDb=Server=auth-db,1433;Database=authdb;User Id=sa;Password=Auth!Passw0rd
+      ConnectionStrings__DefaultConnection: "Host=auth-db;Database=postgres;Username=postgres;Password=postgres"
+
+volumes:
+  pgdata: {}

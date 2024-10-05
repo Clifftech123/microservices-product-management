@@ -1,5 +1,4 @@
-﻿using AuthService.API.context;
-using AuthService.API.Contracts;
+﻿using AuthService.API.Contracts;
 using AuthService.API.Data;
 using AuthService.API.Extensions;
 using AuthService.API.Interface;
@@ -10,21 +9,19 @@ namespace AuthService.API.Services
     /// <summary>
     /// Service for managing user operations.
     /// </summary>
-    public class UserService : IUserService
+    public class AuthenticationService : IAuthenticationService
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<AuthenticationService> _logger;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        private readonly UserManager<User> _userManager;
-        private readonly ILogger<UserService> _logger;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserService"/> class.
+        /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
         /// </summary>
         /// <param name="jwtTokenGenerator">The JWT token generator.</param>
-        /// <param name="authDbContext">The authentication database context.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="logger">The logger.</param>
-        public UserService(IJwtTokenGenerator jwtTokenGenerator, AuthDbContext authDbContext, UserManager<User> userManager, ILogger<UserService> logger)
+        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, UserManager<ApplicationUser> userManager, ILogger<AuthenticationService> logger)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userManager = userManager;
@@ -45,19 +42,17 @@ namespace AuthService.API.Services
                 return new LoginResponse
                 {
                     Success = false,
-                    Message = "Invalid username or password."
+                    Message = "Invalid userName or password."
                 };
             }
 
-            var token = _jwtTokenGenerator.GenerateToken(user);
+            var token = await _jwtTokenGenerator.GenerateToken(user);
 
             return new LoginResponse
             {
                 Success = true,
                 Token = token,
                 Message = "Account created successfully."
-                
-                
             };
         }
 
@@ -78,12 +73,23 @@ namespace AuthService.API.Services
                     Message = "User already exists."
                 };
             }
+            // Validate the password
 
-            var newUser = new User
+            if (!registerUserRequest.Password.Any(char.IsDigit))
+            {
+
+                _logger.LogWarning("Registration attempt with existing email {Email}", registerUserRequest.Email);
+                return new LoginResponse
+                {
+                    Success = false,
+                    Message = "Password must contain at least one digit."
+                };
+            }
+
+            var newUser = new ApplicationUser
             {
                 UserName = registerUserRequest.Email,
                 Email = registerUserRequest.Email
-
             };
 
             var result = await _userManager.CreateAsync(newUser, registerUserRequest.Password);
@@ -97,7 +103,7 @@ namespace AuthService.API.Services
                 };
             }
 
-            var token = _jwtTokenGenerator.GenerateToken(newUser);
+            var token = await _jwtTokenGenerator.GenerateToken(newUser);
 
             return new LoginResponse
             {

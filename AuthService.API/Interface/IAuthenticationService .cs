@@ -4,7 +4,7 @@ using AuthService.API.Contracts;
 
 namespace AuthService.API.Interface
 {
-    public interface IUserService
+    public interface IAuthenticationService
     {
      Task<LoginResponse> RegisterAsync(RegisterUserRequest registerUserRequest);
 

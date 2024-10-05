@@ -1,5 +1,4 @@
-
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
@@ -23,4 +22,4 @@ RUN dotnet publish "./ProductService.API.csproj" -c $BUILD_CONFIGURATION -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["sh", "-c", "dotnet ef database update --project ProductService.API/ProductService.API.csproj && dotnet ProductService.API.dll"]
+ENTRYPOINT ["dotnet", "ProductService.API.dll"]

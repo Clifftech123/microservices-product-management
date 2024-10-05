@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using ProductService.API.Interfaces;
 using ProductService.API.Contracts;
-using System.Threading.Tasks;
+using ProductService.API.Interfaces;
 
 namespace ProductService.API.Controllers
 {
@@ -13,6 +12,7 @@ namespace ProductService.API.Controllers
     public class ProductsController(IProductService productService) : ControllerBase
     {
         private readonly IProductService _productService = productService;
+
 
         /// <summary>
         /// Creates a new product.

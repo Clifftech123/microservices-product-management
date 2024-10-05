@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ProductService.API.context;
+using ProductService.API.Context;
 using ProductService.API.Contracts;
 using ProductService.API.Exceptions;
 using ProductService.API.Interfaces;
@@ -15,7 +15,7 @@ namespace ProductService.API.Services
     /// </remarks>
     /// <param name="context">The product database context.</param>
     public class ProductServiceImple(ProductDbContext context) : IProductService
-  
+
     {
         private readonly ProductDbContext _context = context;
 
@@ -56,7 +56,7 @@ namespace ProductService.API.Services
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                 throw new ProductNotFoundException(id);
+                throw new ProductNotFoundException(id);
             }
 
             return new ProductResponse
@@ -96,7 +96,7 @@ namespace ProductService.API.Services
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-               throw new ProductNotFoundException(id);
+                throw new ProductNotFoundException(id);
             }
 
             product.Name = request.Name;
@@ -125,7 +125,7 @@ namespace ProductService.API.Services
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-               throw new InvalidProductIdException(id);
+                throw new InvalidProductIdException(id);
             }
 
             _context.Products.Remove(product);

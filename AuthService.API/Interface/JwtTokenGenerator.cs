@@ -6,7 +6,7 @@ namespace AuthService.API.Extensions
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(User user);
+        Task<string> GenerateToken(ApplicationUser user);
         
     }
 }

@@ -1,14 +1,13 @@
-
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using ProductService.API.context;
+using ProductService.API.Context;
 using ProductService.API.Exceptions;
 using ProductService.API.Interfaces;
 using ProductService.API.Services;
 using System.Reflection;
+
 namespace ProductService.API.Extensions
 {
-
     /// <summary>
     /// Provides extension methods for adding product services.
     /// </summary>
@@ -21,23 +20,17 @@ namespace ProductService.API.Extensions
         public static void AddProductServiceExtensions(this IHostApplicationBuilder builder)
         {
 
+           var configuration = builder.Configuration;
             // Adding of the database context
             builder.Services.AddDbContext<ProductDbContext>(configure =>
-        {
-            configure.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"));
-        });
+            {
+                configure.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            });
 
             builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             builder.Services.AddExceptionHandler<ProductGlobalExceptionHandler>();
-
             builder.Services.AddProblemDetails();
-
             builder.Services.AddScoped<IProductService, ProductServiceImple>();
-
         }
     }
 }
-
-
-
-

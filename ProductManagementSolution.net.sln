@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.API", "ProductService.API\ProductService.API.csproj", "{34847EE0-1DEC-4343-8EE7-E0C1B5C49439}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.API", "ProductService.API\ProductService.API.csproj", "{34847EE0-1DEC-4343-8EE7-E0C1B5C49439}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.API", "AuthService.API\AuthService.API.csproj", "{65BEA0EF-EF50-476A-A6F5-D1A38DF50BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.API", "AuthService.API\AuthService.API.csproj", "{65BEA0EF-EF50-476A-A6F5-D1A38DF50BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerService.API", "ConsumerService.API\ConsumerService.API.csproj", "{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerService.API", "ConsumerService.API\ConsumerService.API.csproj", "{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ECD52B54-0456-423C-9F70-FC00F2ECF50C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
