@@ -1,77 +1,12 @@
-version: '3.8'
+version: '3.4'
 
 services:
   rabbitmq:
-    image: rabbitmq:3-management
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management-alpine
     ports:
-      - "5672:5672" # AMQP protocol port
-      - "15672:15672" # RabbitMQ management UI port
-
-  product-db:
-    image: postgres:latest
+      - "15672:15672"
+      - "5672:5672"
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - "5432:5432" # PostgreSQL port
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  auth-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - "5433:5432" # PostgreSQL port (mapped to 5432 inside container)
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  product-service:
-    build:
-      context: .
-      dockerfile: ProductService.API/Dockerfile
-    depends_on:
-      product-db:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_started
-    environment:
-      ConnectionStrings__DefaultConnection: "Host=product-db;Database=postgres;Username=postgres;Password=postgres"
-
-  consumer-service:
-    build:
-      context: .
-      dockerfile: ConsumerService.API/Dockerfile
-    depends_on:
-      rabbitmq:
-        condition: service_started
-    environment:
-      - ProductServiceUrl=http://product-service:80
-      - AuthServiceUrl=http://auth-service:80
-
-  auth-service:
-    image: ${DOCKER_REGISTRY-}authserviceapi
-    build:
-      context: .
-      dockerfile: AuthService.API/Dockerfile
-    depends_on:
-      auth-db:
-        condition: service_healthy
-    environment:
-      ConnectionStrings__DefaultConnection: "Host=auth-db;Database=postgres;Username=postgres;Password=postgres"
-
-volumes:
-  pgdata: {}
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password

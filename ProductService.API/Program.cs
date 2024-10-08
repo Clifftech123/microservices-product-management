@@ -5,7 +5,6 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
 builder.AddProductServiceExtensions();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

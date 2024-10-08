@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.API", "AuthServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerService.API", "ConsumerService.API\ConsumerService.API.csproj", "{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ECD52B54-0456-423C-9F70-FC00F2ECF50C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECD52B54-0456-423C-9F70-FC00F2ECF50C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

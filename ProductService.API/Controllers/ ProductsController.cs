@@ -25,7 +25,7 @@ namespace ProductService.API.Controllers
             var product = await _productService.CreateProductAsync(request);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
-
+        
         /// <summary>
         /// Gets a product by its identifier.
         /// </summary>
@@ -37,21 +37,26 @@ namespace ProductService.API.Controllers
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound("There's nothing found  in heree for your ");
             }
             return Ok(product);
-        }
+        }   
+        
 
         /// <summary>
         /// Gets all products.
         /// </summary>
         /// <returns>A list of all products.</returns>
         [HttpGet]
+
+        
         public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
+        
+     
 
         /// <summary>
         /// Updates an existing product.
@@ -86,4 +91,6 @@ namespace ProductService.API.Controllers
             return NoContent();
         }
     }
+
+    
 }

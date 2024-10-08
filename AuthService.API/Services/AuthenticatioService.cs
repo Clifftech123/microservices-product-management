@@ -52,9 +52,12 @@ namespace AuthService.API.Services
             {
                 Success = true,
                 Token = token,
-                Message = "Account created successfully."
+                Email = user.Email,
+                Id = user.Id,
+                Message = "Login successful  successfully."
             };
         }
+
 
         /// <summary>
         /// Registers a new user.
@@ -105,11 +108,13 @@ namespace AuthService.API.Services
 
             var token = await _jwtTokenGenerator.GenerateToken(newUser);
 
+
             return new LoginResponse
             {
                 Success = true,
                 Token = token,
-                Message = "Your login was successful."
+
+                Message = "Account created successfully."
             };
         }
     }

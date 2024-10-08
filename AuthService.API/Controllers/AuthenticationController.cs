@@ -31,6 +31,7 @@ namespace AuthService.API.Controllers
         [HttpPost("users/login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ErrorResponse))]
+
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest loginUserRequest)
         {
             var response = await _authenticationService.LoginAsync(loginUserRequest);
@@ -41,6 +42,7 @@ namespace AuthService.API.Controllers
 
             throw new LoginException("Error occurred when trying to login.");
         }
+
 
         /// <summary>
         /// Registers a new user.

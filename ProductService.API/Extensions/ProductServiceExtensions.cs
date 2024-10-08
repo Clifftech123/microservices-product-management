@@ -20,11 +20,12 @@ namespace ProductService.API.Extensions
         public static void AddProductServiceExtensions(this IHostApplicationBuilder builder)
         {
 
-           var configuration = builder.Configuration;
-            // Adding of the database context
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (builder.Configuration == null) throw new ArgumentNullException(nameof(builder.Configuration));
+
             builder.Services.AddDbContext<ProductDbContext>(configure =>
             {
-                configure.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                configure.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"));
             });
 
             builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
