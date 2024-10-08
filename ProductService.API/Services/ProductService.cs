@@ -1,24 +1,27 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProductService.API.Context;
 using ProductService.API.Contracts;
 using ProductService.API.Exceptions;
 using ProductService.API.Interfaces;
 using ProductService.API.Models;
+using ProductService.API.Rabbitmq;
 
 namespace ProductService.API.Services
 {
     /// <summary>
     /// Service for managing products.
     /// </summary>
-    /// <remarks>
-    /// Initializes a new instance of the <see cref="ProductService"/> class.
-    /// </remarks>
-    /// <param name="context">The product database context.</param>
-    public class ProductServiceImple(ProductDbContext context) : IProductService
-
+    public class ProductServiceImple : IProductService
     {
-        private readonly ProductDbContext _context = context;
+        private readonly ProductDbContext _context;
+        private readonly RabbitMQPublisher _rabbitMQPublisher;
 
+        public ProductServiceImple(ProductDbContext context, RabbitMQPublisher rabbitMQPublisher)
+        {
+            _context = context;
+            _rabbitMQPublisher = rabbitMQPublisher;
+        }
 
         /// <summary>
         /// Creates a new product asynchronously.
@@ -36,6 +39,9 @@ namespace ProductService.API.Services
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            // Publish a message to RabbitMQ
+            _rabbitMQPublisher.Publish(JsonConvert.SerializeObject(product));
 
             return new ProductResponse
             {
@@ -106,6 +112,9 @@ namespace ProductService.API.Services
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
 
+            // Publish a message to RabbitMQ
+            _rabbitMQPublisher.Publish(JsonConvert.SerializeObject(product));
+
             return new ProductResponse
             {
                 Id = product.Id,
@@ -130,6 +139,9 @@ namespace ProductService.API.Services
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+
+            // Publish a message to RabbitMQ
+            _rabbitMQPublisher.Publish(JsonConvert.SerializeObject(product));
 
             return true;
         }

@@ -1,32 +1,32 @@
 using Microsoft.OpenApi.Models;
 using ProductService.API.Extensions;
+using ProductService.API.Rabbitmq;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.AddProductServiceExtensions();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddSingleton<RabbitMQPublisher>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Poduct Service API",
+        Title = "Product Service API", // Fixed typo in "Poduct"
         Version = "v1",
-        Description = "Product Service  " +
-        "Product Service APi for our Microservices Architecture",
+        Description = "Product Service API for our Microservices Architecture", // Fixed typo in "APi"
     });
-
 
     // Set the comments path for the Swagger JSON and UI.
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
-
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,4 +42,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync(); // Changed to RunAsync

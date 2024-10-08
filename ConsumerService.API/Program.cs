@@ -1,3 +1,5 @@
+using ConsumerService.API.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -5,6 +7,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHostedService<RabbitMQConsumer>();
+
+
 
 var app = builder.Build();
 
