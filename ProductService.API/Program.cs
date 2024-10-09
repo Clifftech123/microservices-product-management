@@ -1,16 +1,15 @@
 using Microsoft.OpenApi.Models;
 using ProductService.API.Extensions;
-using ProductService.API.Rabbitmq;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.AddProductServiceExtensions();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSingleton<RabbitMQPublisher>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -29,6 +28,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -42,4 +43,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.RunAsync(); // Changed to RunAsync
+await app.RunAsync();

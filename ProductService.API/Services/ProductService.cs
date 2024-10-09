@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using ProductService.API.Context;
 using ProductService.API.Contracts;
 using ProductService.API.Exceptions;
 using ProductService.API.Interfaces;
 using ProductService.API.Models;
-using ProductService.API.Rabbitmq;
 
 namespace ProductService.API.Services
 {
@@ -15,12 +13,11 @@ namespace ProductService.API.Services
     public class ProductServiceImple : IProductService
     {
         private readonly ProductDbContext _context;
-        private readonly RabbitMQPublisher _rabbitMQPublisher;
 
-        public ProductServiceImple(ProductDbContext context, RabbitMQPublisher rabbitMQPublisher)
+        public ProductServiceImple(ProductDbContext context)
         {
             _context = context;
-            _rabbitMQPublisher = rabbitMQPublisher;
+
         }
 
         /// <summary>
@@ -40,8 +37,7 @@ namespace ProductService.API.Services
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            // Publish a message to RabbitMQ
-            _rabbitMQPublisher.Publish(JsonConvert.SerializeObject(product));
+
 
             return new ProductResponse
             {
@@ -112,8 +108,7 @@ namespace ProductService.API.Services
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
 
-            // Publish a message to RabbitMQ
-            _rabbitMQPublisher.Publish(JsonConvert.SerializeObject(product));
+
 
             return new ProductResponse
             {
@@ -140,8 +135,7 @@ namespace ProductService.API.Services
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            // Publish a message to RabbitMQ
-            _rabbitMQPublisher.Publish(JsonConvert.SerializeObject(product));
+
 
             return true;
         }

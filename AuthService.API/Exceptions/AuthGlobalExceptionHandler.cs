@@ -28,7 +28,7 @@ namespace AuthService.API.Exceptions
         /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the exception was handled.</returns>
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            _logger.LogError(exception, "An unhandled exception has occurred: {Message}", exception.Message);
+            _logger.LogError(exception, "An unhanded exception has occurred: {Message}", exception.Message);
 
             var errorResponse = new ErrorResponse
             {

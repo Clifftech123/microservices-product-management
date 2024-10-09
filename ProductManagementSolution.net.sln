@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.API", "Produ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.API", "AuthService.API\AuthService.API.csproj", "{65BEA0EF-EF50-476A-A6F5-D1A38DF50BE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerService.API", "ConsumerService.API\ConsumerService.API.csproj", "{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagement.AppHost", "ProductManagement.AppHost\ProductManagement.AppHost.csproj", "{01723C57-C016-4FC1-8743-D2EDF05F30FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagement.ServiceDefaults", "ProductManagement.ServiceDefaults\ProductManagement.ServiceDefaults.csproj", "{CFBAD693-BAEC-4060-BD88-37A46D0BE718}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQConsumer", "RabbitMQConsumer\RabbitMQConsumer.csproj", "{F00DF6B7-4DC0-43A0-81DC-C6435F674D1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +27,18 @@ Global
 		{65BEA0EF-EF50-476A-A6F5-D1A38DF50BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65BEA0EF-EF50-476A-A6F5-D1A38DF50BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65BEA0EF-EF50-476A-A6F5-D1A38DF50BE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4C2F46C-4B02-44AA-B17D-FC3C7DBA9DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01723C57-C016-4FC1-8743-D2EDF05F30FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01723C57-C016-4FC1-8743-D2EDF05F30FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01723C57-C016-4FC1-8743-D2EDF05F30FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01723C57-C016-4FC1-8743-D2EDF05F30FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFBAD693-BAEC-4060-BD88-37A46D0BE718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFBAD693-BAEC-4060-BD88-37A46D0BE718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFBAD693-BAEC-4060-BD88-37A46D0BE718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFBAD693-BAEC-4060-BD88-37A46D0BE718}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F00DF6B7-4DC0-43A0-81DC-C6435F674D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00DF6B7-4DC0-43A0-81DC-C6435F674D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F00DF6B7-4DC0-43A0-81DC-C6435F674D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F00DF6B7-4DC0-43A0-81DC-C6435F674D1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

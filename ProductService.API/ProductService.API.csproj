@@ -33,4 +33,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductManagement.ServiceDefaults\ProductManagement.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

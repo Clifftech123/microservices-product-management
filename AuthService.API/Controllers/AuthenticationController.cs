@@ -1,5 +1,4 @@
 ﻿using AuthService.API.Contracts;
-using AuthService.API.Exceptions;
 using AuthService.API.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,18 +30,11 @@ namespace AuthService.API.Controllers
         [HttpPost("users/login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ErrorResponse))]
-
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest loginUserRequest)
         {
             var response = await _authenticationService.LoginAsync(loginUserRequest);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-
-            throw new LoginException("Error occurred when trying to login.");
+            return Ok(response);
         }
-
 
         /// <summary>
         /// Registers a new user.
@@ -55,12 +47,7 @@ namespace AuthService.API.Controllers
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserRequest registerUserRequest)
         {
             var response = await _authenticationService.RegisterAsync(registerUserRequest);
-            if (response.Success)
-            {
-                return Created("", response);
-            }
-
-            throw new RegisterException("Error occurred when trying to register.");
+            return Created("", response);
         }
     }
 }
